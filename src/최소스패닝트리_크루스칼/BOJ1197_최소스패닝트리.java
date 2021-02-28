@@ -1,8 +1,11 @@
+package 최소스패닝트리_크루스칼;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
 
-public class Main {
+class Main {
     static int n,m;
     static int[] parent;
     static PriorityQueue<edge> pq = new PriorityQueue<edge>();
