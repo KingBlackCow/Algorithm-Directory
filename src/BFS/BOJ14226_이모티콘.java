@@ -1,3 +1,4 @@
+package BFS;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,7 +7,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class Main {
+public class BOJ14226_이모티콘 {
     static boolean[][] visit;
     static int res;
 
