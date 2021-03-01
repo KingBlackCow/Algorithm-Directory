@@ -1,9 +1,11 @@
+package Map;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class Main {
+public class BOJ2910_빈도정렬 {
 
     static int n,m;
     public static void main(String[] args) throws IOException {

@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
-class Main {
+class BOJ1197_최소스패닝트리 {
     static int n,m;
     static int[] parent;
     static PriorityQueue<edge> pq = new PriorityQueue<edge>();
@@ -28,7 +28,9 @@ class Main {
 
         for(int i=0; i<m; i++) {
             st = new StringTokenizer(br.readLine());
-            pq.add(new edge(Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken())));
+            pq.add(new edge(Integer.parseInt(st.nextToken())
+                    , Integer.parseInt(st.nextToken())
+                    ,Integer.parseInt(st.nextToken())));
         }
 
         //시작점과 종료점의 최상위 노드를 찾아서 겹치면 사이클이 생기는 것이므로 continue를 한다.

@@ -1,8 +1,10 @@
+package Disjoint;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.StringTokenizer;
 
-public class Main {
+class Main {
     static int n,m;
     static int[] parent;
 

@@ -1,95 +1,78 @@
+package Disjoint;
+
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
-class Main {
-    static int n, party;
-    static int[] parent;
+/**
+ * BOJ#2666 벽장문의 이동
+ * https://www.acmicpc.net/problem/2666
+ */
 
+public class BOJ1043_거짓말 {
 
-    public static void main(String[] args) throws Exception {
+    static int n; // 벽장의 개수
+    static int m; // 사용할 벽장의 개수
+    static int[] opened = new int[2];
+    static int[] order;
+
+    // dp[pos1][pos2][depth] : 열린문이 pos1, pos2에 위치하고 사용한 벽장문의 개수가 idx일때, 벽장문을 모두 사용하는데 필요한 최소 이동 수
+    static int[][][] dp = new int[21][21][21];
+
+    static final int NOT_VISITED = -1;
+
+    static {
+
+        for (int i = 0; i < 21; i++) {
+            for (int j = 0; j < 21; j++) {
+
+                Arrays.fill(dp[i][j], NOT_VISITED);
+            }
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+
+        // input
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        n = Integer.parseInt(br.readLine());
+
         StringTokenizer st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
-        party = Integer.parseInt(st.nextToken());
-        parent = new int[n + 1];
-        int partyNum = party;
-        st = new StringTokenizer(br.readLine());
-        int trueMan = Integer.parseInt(st.nextToken());
-        List<Integer> listTrue = new ArrayList<>();
-        for (int i = 0; i < trueMan; i++) {
-            listTrue.add(Integer.parseInt(st.nextToken()));
+
+        opened[0] = Integer.parseInt(st.nextToken());
+        opened[1] = Integer.parseInt(st.nextToken());
+
+        m = Integer.parseInt(br.readLine());
+        order = new int[m];
+        for (int i = 0; i < m; i++) {
+
+            order[i] = Integer.parseInt(br.readLine());
         }
 
-
-        for (int i = 0; i < n + 1; i++) {
-            parent[i] = i;
-        }
-        List<Integer> list[] = new ArrayList[party];
-        for (int i = 0; i < party; i++) {
-            list[i] = new ArrayList<>();
-        }
-        for (int i = 0; i < party; i++) {
-            st = new StringTokenizer(br.readLine());
-            int num = Integer.parseInt(st.nextToken());
-            for (int j = 0; j < num; j++) {
-                list[i].add(Integer.parseInt(st.nextToken()));
-            }
-            for (int j = 0; j < num - 1; j++) {
-                for (int k = j + 1; k < num; k++) {
-                    union(list[i].get(j), list[i].get(k));
-                }
-            }
-        }
-
-
-        for (int i = 0; i < n+1; i++) {
-            parent[i] = find(i);
-        }
-
-
-        List<Integer> listNot=new ArrayList<>();
-        for (int i = 0; i < listTrue.size(); i++) {
-            listNot.add(listTrue.get(i));
-            for (int j = 0; j < parent.length; j++) {
-                if(parent[listTrue.get(i)]==parent[j]){
-                    if(!listNot.contains(j)){
-                        listNot.add(j);
-                    }
-                }
-            }
-        }
-        int res=0;
-        for (int i = 0; i < party; i++) {
-            boolean success=true;
-            for (Integer j:list[i]) {
-                if(listNot.contains(j)){
-                    success=false;
-                    break;
-                }
-            }
-            if(success)res++;
-        }
-
-        System.out.println(res);
+        // solve
+        System.out.println(solve(opened[0], opened[1], 0));
     }
 
+    static int solve(int firstPos, int secondPos, int idx) {
 
-    public static int find(int a) {
-        if (a == parent[a]) return a;
-        parent[a] = find(parent[a]);
-        return parent[a];
-    }
+        // 기저 조건
+        if (idx == m) {
 
-    public static void union(int a, int b) {
-        int aRoot = find(a);
-        int bRoot = find(b);
-
-        if (aRoot != bRoot) {
-            parent[aRoot] = b;
-        } else {
-            return;
+            return 0;
         }
+
+        // memoization
+        if (dp[firstPos][secondPos][idx] != NOT_VISITED) return dp[firstPos][secondPos][idx];
+
+        // 탐색
+        dp[firstPos][secondPos][idx] = Math.min(solve(order[idx], secondPos, idx + 1) + Math.abs((order[idx] - firstPos)),
+                solve(firstPos, order[idx], idx + 1) + Math.abs((order[idx] - secondPos)));
+
+        return dp[firstPos][secondPos][idx];
     }
 }
+
 
