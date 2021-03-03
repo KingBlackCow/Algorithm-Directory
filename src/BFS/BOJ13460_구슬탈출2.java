@@ -1,10 +1,12 @@
+package BFS;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-class Main {
+class BOJ13460_구슬탈출2 {
     static int n, m;
     static boolean visit[][][][];
 
