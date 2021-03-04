@@ -1,8 +1,12 @@
+package Backtracking;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
-class Main {
+class BOJ16198_에너지모으기 {
     static int n;
 
     static int max=Integer.MIN_VALUE;
