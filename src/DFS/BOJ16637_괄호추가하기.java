@@ -1,11 +1,9 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+package DFS;
+
+import java.io.*;
 import java.util.ArrayList;
 
-public class Main {
+public class BOJ16637_괄호추가하기 {
     static long ans;
     static ArrayList<Character> opList;
     static ArrayList<Integer> numList;
