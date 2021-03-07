@@ -1,12 +1,9 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
+package Greedy;
+
+import java.io.*;
 import java.util.StringTokenizer;
 
-public class Main {
+public class BOJ14659_한조서열정리하고옴ㅋㅋ {
     public static void main(String[] args) throws NumberFormatException, IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));

@@ -1,8 +1,9 @@
+package DP;
+
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
-class Main {
+class BOJ15486_퇴사 {
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
