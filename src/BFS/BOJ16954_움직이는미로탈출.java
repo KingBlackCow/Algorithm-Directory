@@ -1,9 +1,11 @@
+package BFS;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Queue;
 
-class Main {
+class BOJ16954_움직이는미로탈출 {
     static String[][] ary = new String[8][8];
     static boolean visit[][];
     static int[] dr = {-1, 1, 0, 0, 1, 1, -1, -1, 0};
