@@ -1,9 +1,11 @@
-import javax.swing.*;
+package Math;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.List;
+import java.util.StringTokenizer;
 
-class Main3 {
+class BOJ1476_날짜계산 {
     static int n;
     static boolean[] ary;
     static boolean[] visit;

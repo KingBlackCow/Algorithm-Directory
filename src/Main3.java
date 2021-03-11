@@ -1,32 +1,31 @@
-import javax.swing.*;
+
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.StringTokenizer;
 
-class Main3 {
-    static int n;
-    static boolean[] ary;
-    static boolean[] visit;
-    static List<Integer> list[];
+public class Main3 {
+    private static final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private static int n, k;
+    private static int[] ary, dp;
 
-    static int P[];
-    static boolean finished[];
-    static int res=0;
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int a=Integer.parseInt(br.readLine());
-        int b=Integer.parseInt(br.readLine());
-        int c=Integer.parseInt(br.readLine());
-        int sum=a+b+c;
-        if(a==60&&b==60&&c==60){
-            System.out.println("Equilateral");
-        }else if(sum==180&&((a==b)||(b==c)||(c==a))){
-            System.out.println("Isosceles");
-        }else if(sum==180){
-            System.out.println("Scalene");
-        }else{
-            System.out.println("Error");
+    public static void main(String[] args) throws IOException {
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        k = Integer.parseInt(st.nextToken());
+
+        ary = new int[n + 1];
+        dp = new int[k + 1];
+        dp[0] = 1;
+
+        for(int i = 1 ; i <= n; i++) {
+            ary[i] = Integer.parseInt(br.readLine());
+            for (int j = ary[i]; j <= k; j++)
+                dp[j] += dp[j - ary[i]];
         }
+
+        System.out.println(dp[k]);
     }
 
 }
+
