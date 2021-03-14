@@ -1,11 +1,11 @@
-
+package BFS;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.*;
 
 
-class Solution {
+class SWEA1953_탈주범검거 {
     static int n, m, startX, startY, turn;
     static int[][] ary;
     static boolean[][] visit;
