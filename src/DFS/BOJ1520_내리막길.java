@@ -1,7 +1,9 @@
+package DFS;
+
 import java.io.*;
 import java.util.StringTokenizer;
 
-class Main4 {
+class BOJ1520_내리막길 {
     static int n; // 가로(행)
     static int m; // 세로(렬)
     static int[][] ary; // 지도

@@ -1,8 +1,10 @@
+package DFS;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.StringTokenizer;
 
-class Solution {
+class SWEA1952_수영장 {
     static int[] ary;
     static int sum;
 
