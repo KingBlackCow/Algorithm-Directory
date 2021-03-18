@@ -89,12 +89,10 @@ class BOJ17144_미세먼지안녕 {
             Point point = list.get(idx);
             int ny = point.x;
             int nx = point.y + 1;
-            //오른쪽으로 끝까지
             while (nx < m - 1) {
                 nmap[ny][nx + 1] = ary[ny][nx];
                 nx++;
             }
-            //상하로 끝까지
             if (idx == 0) {
                 while (ny > 0) {
                     nmap[ny - 1][nx] = ary[ny][nx];
@@ -106,12 +104,10 @@ class BOJ17144_미세먼지안녕 {
                     ny++;
                 }
             }
-            //좌측으로 끝까지
             while (nx > 0) {
                 nmap[ny][nx - 1] = ary[ny][nx];
                 nx--;
             }
-            //공기청정기 위치 전까지
             if (idx == 0) {
                 while (ny < point.x - 1) {
                     nmap[ny + 1][nx] = ary[ny][nx];

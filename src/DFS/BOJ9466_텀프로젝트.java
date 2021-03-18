@@ -8,11 +8,9 @@ import java.util.StringTokenizer;
 
 class BOJ9466_텀프로젝트 {
     static int n;
-    static boolean[] ary;
+    static int[] ary;
     static boolean[] visit;
     static List<Integer> list[];
-
-    static int P[];
     static boolean finished[];
     static int res=0;
     public static void main(String[] args) throws Exception {
@@ -21,10 +19,9 @@ class BOJ9466_텀프로젝트 {
         StringBuilder sb = new StringBuilder();
         for (int tc = 0; tc < T; tc++) {
             n = Integer.parseInt(br.readLine());
-            ary = new boolean[n + 1];
+            ary = new int[n + 1];
             visit = new boolean[n+1];
             res=0;
-            P=new int[n+1];
             finished=new boolean[n+1];
             list = new ArrayList[n + 1];
             for (int i = 1; i <= n; i++) {
@@ -46,19 +43,20 @@ class BOJ9466_텀프로젝트 {
         System.out.println(sb.toString());
     }
 
-    static void dfs(int u) {
-        visit[u] = true;
-        for (Integer v : list[u]) {
-            if (!visit[v]) {
-                P[u] = v;
-                dfs(v);
-            } else if (!finished[v]) {
-                for (int i = v; i != u; i = P[i]) {
+    static void dfs(int x) {
+        visit[x] = true;
+        for (Integer i : list[x]) {
+            if (!visit[i]) {
+                ary[x] = i;
+                dfs(i);
+            } else if (!finished[i]) {
+                for (int j = i; j != x; j = ary[j]) {
                     res++;
-                } res++;
+                }
+                res++;
             }
         }
-        finished[u] = true;
+        finished[x] = true;
     }
 
 }
