@@ -106,8 +106,8 @@ public class SWEA5656_벽돌깨기 {
                 }
 
             }
-
         }
+
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
                 if(visit[i][j]){

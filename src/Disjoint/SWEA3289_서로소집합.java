@@ -45,7 +45,6 @@ public class SWEA3289_서로소집합 {
 
     private static boolean union(int a, int b) {
         if (findSet(a) == findSet(b)) return false;
-
         parent[findSet(b)] = a;
         return true;
     }
