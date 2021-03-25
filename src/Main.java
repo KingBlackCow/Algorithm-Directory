@@ -1,61 +1,66 @@
-import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.*;
+/*
 
-class Main {
-    static int n;
-    static boolean[] ary;
-    static boolean[] visit;
-    static List<Integer> list[];
 
-    static int P[];
-    static boolean finished[];
-    static int res=0;
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int T = Integer.parseInt(br.readLine());
-        StringBuilder sb = new StringBuilder();
-        for (int tc = 0; tc < T; tc++) {
-            n = Integer.parseInt(br.readLine());
-            ary = new boolean[n + 1];
-            visit = new boolean[n+1];
-            res=0;
-            P=new int[n+1];
-            finished=new boolean[n+1];
-            list = new ArrayList[n + 1];
-            for (int i = 1; i <= n; i++) {
-                list[i] = new ArrayList<>();
-            }
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            for (int i = 1; i <= n; i++) {
-                list[i].add(Integer.parseInt(st.nextToken()));
-            }
-            for (int i = 1; i <= n; i++) {
-                if(!visit[i]){
-                    dfs(i);
+import java.util.Scanner;
+
+
+public class Main {
+
+    static final int INF = 9999999;
+    static int n,m,adjMatrix[][];
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        m= sc.nextInt();
+        adjMatrix = new int[n][n];
+        for(int i = 0; i< n; ++i) {
+            for(int j = 0; j< n; ++j) {
+                adjMatrix[i][j] = sc.nextInt();
+                if(i != j && adjMatrix[i][j]==0) {//자기자신으로의 인접 정보가 아니고 인접해있지 않다면 INF로 채우기
+                    adjMatrix[i][j]=INF;
                 }
             }
-
-            sb.append(n-res + "\n");
         }
-
-        System.out.println(sb.toString());
-    }
-
-    static void dfs(int u) {
-        visit[u] = true;
-        for (Integer v : list[u]) {
-            if (!visit[v]) {
-                P[u] = v;
-                dfs(v);
-            } else if (!finished[v]) {
-                for (int i = v; i != u; i = P[i]) {
-                    res++;
-                } res++;
+        //System.out.println("===========입력==========");
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                adjMatrix[sc.nextInt()][sc.nextInt()]= sc.nextInt();
             }
         }
-        finished[u] = true;
+        //print();
+        // 출발지-->경유지-->목적지로 3중 루프 돌리면 오답
+        // 경유지-->출발지-->목적지로 3중 루프 돌려야 정답
+        for(int k = 0; k< n; ++k) {
+            for(int i = 0; i< n; ++i) {
+                if(i==k) continue; // 출발지와 경유지가 같다면 다음 출발지
+                for(int j = 0; j< n; ++j) {
+                    if(i==j || k==j) continue; // 경유지와 목적지가 같거나 출발지가 곧 목적지라면 패스
+                    if(adjMatrix[i][j] > adjMatrix[i][k]+adjMatrix[k][j]) {
+                        adjMatrix[i][j] = adjMatrix[i][k]+adjMatrix[k][j];
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            dfs(i);
+        }
+
+    }
+
+    private static void dfs() {
+    }
+
+    private static void print() {
+        for(int i = 0; i< n; ++i) {
+            for(int j = 0; j< n; ++j) {
+                System.out.print(adjMatrix[i][j]+"\t");
+            }
+            System.out.println();
+        }
+        System.out.println("=====================================");
+
     }
 
 }
+*/

@@ -1,9 +1,11 @@
+package FloydWarshall;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class Solution {
+public class SWEA1263_사람네트워크2 {
 
     static final int INF = 99999;
     static int n, ary[][];
