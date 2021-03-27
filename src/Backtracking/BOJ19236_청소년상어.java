@@ -61,12 +61,12 @@ public class BOJ19236_청소년상어 {
 
             if(r >= 0 && r < 4 && c >= 0 && c < 4 && map[r][c] != 0) {
                 int eatFish = map[r][c];
-                int nd = fish[eatFish].dir;
+                int newDir = fish[eatFish].dir;
                 map[sharkX][sharkY] = 0;
                 map[r][c] = -1;
                 fish[eatFish].alive = 0;
 
-                dfs(r, c, nd, cnt+eatFish);
+                dfs(r, c, newDir, cnt+eatFish);
 
                 fish[eatFish].alive = 1;
                 map[sharkX][sharkY] = -1;
