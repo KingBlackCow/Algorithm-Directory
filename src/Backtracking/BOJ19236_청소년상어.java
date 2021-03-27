@@ -40,7 +40,7 @@ public class BOJ19236_청소년상어 {
     }
 
     public static void dfs(int sharkX, int sharkY, int sharkDir, int cnt) {
-        ans = Math.max(ans, cnt); //이전에 먹었던 물고기 번호 합 max 비교해 ans에 저장
+        ans = Math.max(ans, cnt);
 
         int[][] tmpMap = new int[map.length][map.length];
         for(int i = 0; i < map.length; i++) {
