@@ -1,11 +1,11 @@
-package 최소스패닝트리_크루스칼;
+package Kruskal;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
-class BOJ1922_네트워크연결 {
+class BOJ1197_최소스패닝트리 {
     static int n,m;
     static int[] parent;
     static PriorityQueue<edge> pq = new PriorityQueue<edge>();
@@ -13,12 +13,14 @@ class BOJ1922_네트워크연결 {
 
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st ;
 
-        n = Integer.parseInt(br.readLine());
-        m = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
 
         parent = new int[n+1];
+
 
         for(int i=0; i<n+1; i++) {
             parent[i] = i;
@@ -31,6 +33,8 @@ class BOJ1922_네트워크연결 {
                     ,Integer.parseInt(st.nextToken())));
         }
 
+        //시작점과 종료점의 최상위 노드를 찾아서 겹치면 사이클이 생기는 것이므로 continue를 한다.
+        //아니면 union을 통해 연결하고 v 를 더해준다.
         for(int i=0; i<m; i++) {
             edge tmp = pq.poll();
 
@@ -45,6 +49,7 @@ class BOJ1922_네트워크연결 {
         System.out.println(result);
     }
 
+    //크루스칼의 기본 union find!! 외워두는게 편하다.
     public static int find(int a) {
         if(a == parent[a]) return a;
         parent[a] = find(parent[a]);
@@ -63,19 +68,22 @@ class BOJ1922_네트워크연결 {
     }
 }
 
-class edge2 implements Comparable<edge2> {
+//간선 class
+//우선순위 큐를 사용하기 위해서 Comparable을 통해 정렬 우선순위를 정했다. (V 기준)
+class edge implements Comparable<edge> {
     int start;
     int end;
     int weight;
 
-    public edge2(int start, int end, int weight) {
+    public edge(int start, int end, int weight) {
         this.start = start;
         this.end = end;
         this.weight = weight;
     }
 
     @Override
-    public int compareTo(edge2 o) {
+    public int compareTo(edge o) {
+        // TODO Auto-generated method stub
         return o.weight >= this.weight ? -1 : 1;
     }
 }
