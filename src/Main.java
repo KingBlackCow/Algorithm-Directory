@@ -1,66 +1,121 @@
-/*
 
-
-import java.util.Scanner;
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
 
 public class Main {
 
-    static final int INF = 9999999;
-    static int n,m,adjMatrix[][];
-    public static void main(String[] args) {
+    static class Edge implements Comparable<Edge> {
+        int from, to, weight;
 
-        Scanner sc = new Scanner(System.in);
-        n = sc.nextInt();
-        m= sc.nextInt();
-        adjMatrix = new int[n][n];
-        for(int i = 0; i< n; ++i) {
-            for(int j = 0; j< n; ++j) {
-                adjMatrix[i][j] = sc.nextInt();
-                if(i != j && adjMatrix[i][j]==0) {//자기자신으로의 인접 정보가 아니고 인접해있지 않다면 INF로 채우기
-                    adjMatrix[i][j]=INF;
-                }
-            }
-        }
-        //System.out.println("===========입력==========");
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                adjMatrix[sc.nextInt()][sc.nextInt()]= sc.nextInt();
-            }
-        }
-        //print();
-        // 출발지-->경유지-->목적지로 3중 루프 돌리면 오답
-        // 경유지-->출발지-->목적지로 3중 루프 돌려야 정답
-        for(int k = 0; k< n; ++k) {
-            for(int i = 0; i< n; ++i) {
-                if(i==k) continue; // 출발지와 경유지가 같다면 다음 출발지
-                for(int j = 0; j< n; ++j) {
-                    if(i==j || k==j) continue; // 경유지와 목적지가 같거나 출발지가 곧 목적지라면 패스
-                    if(adjMatrix[i][j] > adjMatrix[i][k]+adjMatrix[k][j]) {
-                        adjMatrix[i][j] = adjMatrix[i][k]+adjMatrix[k][j];
-                    }
-                }
-            }
-        }
-        for (int i = 0; i < n; i++) {
-            dfs(i);
+        public Edge(int from, int to, int weight) {
+
+            this.from = from;
+            this.to = to;
+            this.weight = weight;
         }
 
+        @Override
+        public int compareTo(Edge o) {
+            return Integer.compare(this.weight, o.weight);
+        }
     }
 
-    private static void dfs() {
-    }
+    static int V, E;
+    static int parents[];
+    static PriorityQueue<Edge> edgeList;
+    static int pivotX, pivotY, pivotZ;
 
-    private static void print() {
-        for(int i = 0; i< n; ++i) {
-            for(int j = 0; j< n; ++j) {
-                System.out.print(adjMatrix[i][j]+"\t");
-            }
-            System.out.println();
+    static void make() {
+        for (int i = 0; i < V; i++) {
+            parents[i] = i;
         }
-        System.out.println("=====================================");
-
     }
 
+    static int findSet(int a) {
+        if (parents[a] == a) {
+            return a;
+        }
+        return parents[a] = findSet(parents[a]);
+    }
+
+    static boolean union(int a, int b) {
+        int aRoot = findSet(a);
+        int bRoot = findSet(b);
+        if (aRoot == bRoot) return false;
+
+        parents[bRoot] = a;
+        return true;
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        V = Integer.parseInt(st.nextToken());
+        parents = new int[V];
+        edgeList = new PriorityQueue<>();
+        Node[] nodes = new Node[V-1];
+        st = new StringTokenizer(br.readLine(), " ");
+        pivotX=Integer.parseInt(st.nextToken());
+        pivotY=Integer.parseInt(st.nextToken());
+        pivotZ=Integer.parseInt(st.nextToken());
+        for (int i = 0; i < V-1; i++) {
+            st = new StringTokenizer(br.readLine(), " ");
+            nodes[i] = new Node(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+        }
+        Arrays.sort(nodes);
+        int pivot=0;
+        for (int i = 0; i < V-1 ; i++) {
+            edgeList.add(new Edge(pivot++,i+1,Math.min(Math.min(Math.abs(pivotX-nodes[i].x),Math.abs(pivotY-nodes[i].y)),Math.abs(pivotZ-nodes[i].z))));
+            pivotX=nodes[i].x;
+            pivotY=nodes[i].y;
+            pivotZ=nodes[i].z;
+        }
+
+
+        make();
+        int result = 0;
+        int count = 0;
+
+        /*for (Edge edge : edgeList) {
+            if (union(edge.from, edge.to)) {
+                result += edge.weight;
+                if (++count == V - 1) break;
+            }
+        }*/
+
+        /*while (!edgeList.isEmpty()) {
+            Edge edge = edgeList.poll();
+            if (union(edge.from, edge.to)) {
+                result += edge.weight;
+                if (++count == V - 1) break;
+            }
+        }*/
+        while (!edgeList.isEmpty()) {
+            Edge edge = edgeList.poll();
+            result += edge.weight;
+
+        }
+        System.out.println(result);
+    }
+
+    static class Node implements Comparable<Node>{
+        int x;
+        int y;
+        int z;
+        int weight;
+
+        public Node(int x, int y, int z) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.weight=Math.min(Math.min(Math.abs(pivotX-x),Math.abs(pivotY-y)),Math.abs(pivotZ-z));
+        }
+
+        @Override
+        public int compareTo(Node o) {
+            return this.weight-o.weight;
+        }
+    }
 }
-*/
