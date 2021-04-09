@@ -67,14 +67,14 @@ public class BOJ1238_파티 {
 
         while (!q.isEmpty()) {
             Node curNode = q.poll();
-            int cur = curNode.end;
+            int cnt = curNode.end;
 
-            if (visit[cur] == true) continue;
-            visit[cur] = true;
+            if (visit[cnt] == true) continue;
+            visit[cnt] = true;
 
-            for (Node node : list[cur]) {
-                if (dist[node.end] > dist[cur] + node.weight) {
-                    dist[node.end] = dist[cur] + node.weight;
+            for (Node node : list[cnt]) {
+                if (dist[node.end] > dist[cnt] + node.weight) {
+                    dist[node.end] = dist[cnt] + node.weight;
                     q.add(new Node(node.end, dist[node.end]));
                 }
             }
