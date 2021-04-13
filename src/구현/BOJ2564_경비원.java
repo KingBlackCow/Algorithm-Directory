@@ -3,7 +3,6 @@ package 구현;
 import java.io.*;
 import java.util.StringTokenizer;
 
-
 public class BOJ2564_경비원 {
     private static final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private static final BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -38,6 +37,4 @@ public class BOJ2564_경비원 {
         bw.close();
         br.close();
     }
-
-
 }
