@@ -79,30 +79,30 @@ public class SWEA5656_벽돌깨기 {
             }
             high++;
         }
-        Queue<Node> q=new LinkedList<>();
-        boolean[][] visit=new boolean[w][h];
-        if(high<w){
-            q.add(new Node(high,m));
-            visit[high][m]=true;
+        Queue<Node> q = new LinkedList<>();
+        boolean[][] visit = new boolean[w][h];
+        if (high < w) {
+            q.add(new Node(high, m));
+            visit[high][m] = true;
         }
         while (!q.isEmpty()) {
-            Node tmp=q.poll();
-            int weight=map[tmp.x][tmp.y]-1;
+            Node tmp = q.poll();
+            int weight = map[tmp.x][tmp.y] - 1;
             for (int i = -weight; i <= weight; i++) {
-                int r=tmp.x+i;
-                if(r<0||r>=w)continue;
-                if(!visit[r][tmp.y]){
-                    visit[r][tmp.y]=true;
-                    q.add(new Node(tmp.x+i,tmp.y));
+                int r = tmp.x + i;
+                if (r < 0 || r >= w) continue;
+                if (!visit[r][tmp.y]) {
+                    visit[r][tmp.y] = true;
+                    q.add(new Node(tmp.x + i, tmp.y));
                 }
 
             }
             for (int i = -weight; i <= weight; i++) {
-                int c=tmp.y+i;
-                if(c<0||c>=h)continue;
-                if(!visit[tmp.x][c]){
-                    visit[tmp.x][c]=true;
-                    q.add(new Node(tmp.x,c));
+                int c = tmp.y + i;
+                if (c < 0 || c >= h) continue;
+                if (!visit[tmp.x][c]) {
+                    visit[tmp.x][c] = true;
+                    q.add(new Node(tmp.x, c));
                 }
 
             }
@@ -110,8 +110,8 @@ public class SWEA5656_벽돌깨기 {
 
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
-                if(visit[i][j]){
-                    map[i][j]=0;
+                if (visit[i][j]) {
+                    map[i][j] = 0;
                 }
             }
         }
@@ -122,28 +122,29 @@ public class SWEA5656_벽돌깨기 {
     private static void down(int[][] map) {
 
         for (int j = 0; j < h; j++) {
-            Stack<Integer> stack=new Stack<>();
+            Stack<Integer> stack = new Stack<>();
             for (int i = 0; i < w; i++) {
-                if(map[i][j]!=0){
+                if (map[i][j] != 0) {
                     stack.add(map[i][j]);
                 }
             }
-            for (int i = w-1; i >=0; i--) {
-                if(!stack.isEmpty()){
-                    map[i][j]=stack.pop();
-                }else{
-                    map[i][j]=0;
+            for (int i = w - 1; i >= 0; i--) {
+                if (!stack.isEmpty()) {
+                    map[i][j] = stack.pop();
+                } else {
+                    map[i][j] = 0;
                 }
             }
         }
     }
 
-    static class Node{
+    static class Node {
         int x;
         int y;
-        Node(int x,int y){
-            this.x=x;
-            this.y=y;
+
+        Node(int x, int y) {
+            this.x = x;
+            this.y = y;
         }
     }
 }
