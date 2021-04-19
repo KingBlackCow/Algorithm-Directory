@@ -5,17 +5,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class BOJ16134_조합 {
+public class BOJ15791_세진이의미팅 {
     public static void main(String[] args) throws NumberFormatException, IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
       /*  int T = Integer.parseInt(br.readLine());
         for (int tc = 1; tc <= T; tc++) {*/
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            int n = Integer.parseInt(st.nextToken());
-            int r = Integer.parseInt(st.nextToken());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int r = Integer.parseInt(st.nextToken());
 
-            sb.append(nCr(n, r, 987654321)).append('\n');
+        sb.append(nCr(n, r, 1000000007)).append('\n');
         //}
         System.out.println(sb);
     }
