@@ -35,9 +35,7 @@ public class BOJ1342_행운의문자열 {
 
     private static void backtracking(int x, char past) {
         if (x == str.length()) {
-
             size++;
-
             return;
         }
         for (int i = 0; i < str.length(); i++) {
