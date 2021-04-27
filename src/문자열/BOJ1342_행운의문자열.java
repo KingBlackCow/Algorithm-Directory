@@ -1,10 +1,7 @@
 package 문자열;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.io.*;
+import java.util.*;
 
 public class BOJ1342_행운의문자열 {
 
@@ -13,7 +10,6 @@ public class BOJ1342_행운의문자열 {
     static boolean[] visit;
     static int size;
     static ArrayList<Character> list = new ArrayList<>();
-    static Set<String> set=new HashSet<>();
     static int alpha[] = new int[26];
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -39,9 +35,9 @@ public class BOJ1342_행운의문자열 {
 
     private static void backtracking(int x, char past) {
         if (x == str.length()) {
-            if(check()){
-                size++;
-            }
+
+            size++;
+
             return;
         }
         for (int i = 0; i < str.length(); i++) {
@@ -54,17 +50,6 @@ public class BOJ1342_행운의문자열 {
                 visit[i] = false;
             }
         }
-
-
-    }
-
-    public static boolean check() {
-
-        for(int i=0; i<list.size()-1; i++) {
-            if(list.get(i)==list.get(i+1))
-                return false;
-        }
-        return true;
     }
 
     public static int factorial(int N) {
