@@ -61,10 +61,6 @@ public class BOJ10217_KCMTravel {
         while (!pq.isEmpty()) {
             Edge cnt = pq.poll();
 
-            if(dist[cnt.end][cnt.cost]< cnt.time){
-                continue;
-            }
-
             for (Edge next : list[cnt.end]) {
                 int sum = cnt.cost + next.cost;
                 if (sum > supportCost) continue;
