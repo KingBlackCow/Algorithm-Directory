@@ -42,7 +42,7 @@ public class BOJ1167_트리의지름 {
 
         Arrays.fill(visit, false);
         max = Integer.MIN_VALUE;
-        dfs(1, 0);
+        dfs(3, 0);
         max= Integer.MIN_VALUE;
         visit=new boolean[n+1];
         dfs(maxNode.cnt, 0);
