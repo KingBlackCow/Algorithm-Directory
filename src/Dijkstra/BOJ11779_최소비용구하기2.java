@@ -8,7 +8,7 @@ public class BOJ11779_최소비용구하기2 {
     private static final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private static final BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
     private static final int INF = Integer.MAX_VALUE;
-    static int v, e;
+    static int vc, e;
     static List<Node>[] list;
     static int[] dist;
     static int[] route = new int[1001];
@@ -18,11 +18,11 @@ public class BOJ11779_최소비용구하기2 {
 
     public static void main(String[] args) throws IOException {
         StringTokenizer st;
-        v = Integer.parseInt(br.readLine());
+        vc = Integer.parseInt(br.readLine());
         e = Integer.parseInt(br.readLine());
-        list = new ArrayList[v + 1];
+        list = new ArrayList[vc + 1];
 
-        for (int i = 1; i <= v; i++) {
+        for (int i = 1; i <= vc; i++) {
             list[i] = new ArrayList<>();
         }
         for (int i = 0; i < e; i++) {
@@ -35,7 +35,7 @@ public class BOJ11779_최소비용구하기2 {
         st = new StringTokenizer(br.readLine());
         start = Integer.parseInt(st.nextToken());
         end = Integer.parseInt(st.nextToken());
-        dist = new int[v + 1];
+        dist = new int[vc + 1];
 
         Arrays.fill(dist, INF);
         routes = new ArrayList<>();
@@ -55,7 +55,7 @@ public class BOJ11779_최소비용구하기2 {
 
     private static void dijkstra(int start) {
         PriorityQueue<Node> q = new PriorityQueue<>();
-        boolean[] visit = new boolean[v + 1];
+        boolean[] visit = new boolean[vc + 1];
         q.add(new Node(start, 0));
         dist[start] = 0;
         route[start] = 0;
