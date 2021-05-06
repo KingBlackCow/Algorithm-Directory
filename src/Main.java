@@ -1,85 +1,90 @@
-import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.*;
-
+import java.util.Scanner;
 
 public class Main {
+    static class Pair {
+        long y;
+        long x;
 
-    static int n, m;
-    static long[] dist;
-    static int[] map;
-    static List<Node>[] list;
-    static int[] ary;
-
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
-        ary = new int[n];
-        dist = new long[n];
-        map = new int[n];
-        list = new ArrayList[n];
-        for (int i = 0; i < n; i++) {
-            dist[i] = Long.MAX_VALUE;
-        }
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < n; i++) {
-            ary[i] = Integer.parseInt(st.nextToken());
-        }
-        for (int i = 0; i < n; i++) {
-            list[i] = new ArrayList<>();
+        public Pair(long x, long y) {
+            super();
+            this.y = y;
+            this.x = x;
         }
 
-        for (int i = 0; i < m; i++) {
-            st = new StringTokenizer(br.readLine());
-            int f = Integer.parseInt(st.nextToken());
-            int s = Integer.parseInt(st.nextToken());
-            long weight = Long.parseLong(st.nextToken());
-            //if ((ary[f] == 1 || ary[s] == 1) && ((s != n - 1) && (f != n - 1))) continue;
-            list[f].add(new Node(s, weight));
-            list[s].add(new Node(f, weight));
-        }
-        dijkstra(0);
-        if (dist[n - 1] == Long.MAX_VALUE) System.out.println(-1);
-        else System.out.println(dist[n - 1]);
-    }
-
-    private static void dijkstra(int x) {
-        dist[x] = 0;
-        boolean[] visit = new boolean[n];
-        PriorityQueue<Node> pq = new PriorityQueue<>();
-        pq.add(new Node(x, 0));
-
-        while (!pq.isEmpty()) {
-            Node node = pq.poll();
-
-            if (visit[node.cnt]) continue;
-            visit[node.cnt] = true;
-
-            for (Node tmp : list[node.cnt]) {
-                if (ary[tmp.cnt] == 1 && tmp.cnt != n - 1) continue;
-                if (dist[tmp.cnt] > dist[node.cnt] + tmp.weight) {
-                    dist[tmp.cnt] = dist[node.cnt] + tmp.weight;
-                    pq.add(new Node(tmp.cnt, dist[tmp.cnt]));
-                }
+        public boolean cmp(Pair o) {
+            if (y > o.y)
+                return true;
+            if (y == o.y) {
+                if (x >= o.x)
+                    return true;
             }
+            return false;
         }
+
+        public boolean equals(Pair obj) {
+            if(x==obj.x && y==obj.y)
+                return true;
+            return false;
+        }
+
     }
 
-    static class Node implements Comparable<Node> {
-        int cnt;
-        long weight;
+    static long ccw(Pair a, Pair b, Pair c) {
+        long op = a.x * b.y + b.x * c.y + c.x * a.y;
+        op -= (a.y * b.x + b.y * c.x + c.y * a.x);
 
-        public Node(int cnt, long weight) {
-            this.cnt = cnt;
-            this.weight = weight;
+        // 반시계 방향
+        if (op > 0)
+            return 1;
+            // 시계방향
+        else if (op == 0)
+            return 0;
+        else
+            return -1;
+
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        Pair a = new Pair(sc.nextLong(), sc.nextLong());
+        Pair b = new Pair(sc.nextLong(), sc.nextLong());
+        Pair c = new Pair(sc.nextLong(), sc.nextLong());
+        Pair d = new Pair(sc.nextLong(), sc.nextLong());
+
+        if (Solve(a, b, c, d))
+            System.out.println(1);
+        else
+            System.out.println(0);
+    }
+
+
+    public static boolean Solve(Pair a, Pair b, Pair c, Pair d) {
+        long abc = ccw(a, b, c);
+        long abd = ccw(a, b, d);
+        long cda = ccw(c, d, a);
+        long cdb = ccw(c, d, b);
+
+        if (abc * abd == 0 && cda * cdb == 0) {
+            if (a.cmp(b)) {
+                Pair tmp = a;
+                a = b;
+                b = tmp;
+            }
+
+            if (c.cmp(d)) {
+                Pair tmp = c;
+                c = d;
+                d = tmp;
+            }
+            if(b.equals(c)|| a.equals(d))
+                return true;
+
+            return b.cmp(c)!= a.cmp(d);
         }
 
-        @Override
-        public int compareTo(Node o) {
-            return Long.compare(this.weight, o.weight);
-        }
+        return abc * abd <= 0 && cda * cdb <= 0;
     }
 }
+
+
