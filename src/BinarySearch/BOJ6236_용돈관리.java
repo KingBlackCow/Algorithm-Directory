@@ -1,4 +1,4 @@
-package 문자열;
+package BinarySearch;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
