@@ -1,57 +1,83 @@
 import java.util.*;
-import java.io.*;
-
-
 class Solution {
-    static int n;   // 노드 갯수
-    static int m;   // 간선 갯수
+    static List<Integer> list =new ArrayList<>();
+    static Stack<Integer> stack = new Stack<>();
 
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+    public static void main(String[] args) {
+        //String[] cmd={"D 2","C","U 3","C","D 4","C","U 2","Z","Z","U 1","C"};
+        String[] cmd={"D 2","C","U 3","C","D 4","C","U 2","Z","Z"};
 
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
-        List<List<Integer>> list = new ArrayList<List<Integer>>();
-        int[] indegree = new int[n+1];
-
-        for(int i=0; i<n+1; i++)
-            list.add(new ArrayList<Integer>());
-
-        for(int i=0; i<m; i++) {
-            st = new StringTokenizer(br.readLine());
-
-
-            int v1 = Integer.parseInt(st.nextToken());
-            int v2 = Integer.parseInt(st.nextToken());
-
-            list.get(v1).add(v2);
-            indegree[v2]++;
-        }
-
-        topologicalSort(indegree, list);
+        System.out.println( solution(8,2, cmd));
     }
 
-    static void topologicalSort(int[] indegree, List<List<Integer>> list) {
-        PriorityQueue<Integer> pq = new PriorityQueue<>();
-
-        for(int i=1; i<=n; i++) {
-            if(indegree[i] == 0)
-                pq.offer(i);
+    public static String solution(int n, int k, String[] cmd) {
+        boolean[] answer = new boolean[n];
+        for(int i = 0 ; i < n; i++){
+            list.add(i);
         }
-
-        while(!pq.isEmpty()) {
-            int node = pq.poll();
-
-            for(Integer i : list.get(node)) {
-                indegree[i]--;
-
-                if(indegree[i] == 0)
-                    pq.offer(i);
+        int cnt = k;
+        print(cnt);
+        for(int cmdNum = 0 ; cmdNum < cmd.length; cmdNum++){
+            String[] parse = cmd[cmdNum].split(" ");
+            String order = parse[0];
+            String move = "";
+            if(order.equals("D") || order.equals("U")){
+                move = parse[1];
             }
-
-            System.out.print(node + " ");
+            cnt = perform(order, move, cnt);
+            System.out.println("명령 : " +order+ " 움직임 "+ move);
+            print(cnt);
         }
+        for(Integer i: list){
+            answer[i] = true;
+        }
+        String ans="";
+        for(int i = 0 ; i < n; i++){
+            if(answer[i]){
+                ans+="O";
+            }else{
+                ans+="X";
+            }
+        }
+        return ans;
     }
 
+    static int perform(String order, String move, int cnt){
+        if(order.equals("D")){
+            cnt += Integer.parseInt(move);
+        }else if(order.equals("U")){
+            cnt -= Integer.parseInt(move);
+        }else if(order.equals("C")){
+            if(cnt != list.size()-1){
+                stack.add(list.remove(cnt));
+            }else{
+                stack.add(list.remove(cnt));
+                cnt--;
+            }
+        }else if(order.equals("Z")){
+            int insert = stack.pop();
+            System.out.println(insert);
+            if(cnt<insert){
+                cnt++;
+            }
+            list.add(insert);
+            Collections.sort(list);
+        }
+        return cnt;
+    }
+
+    static void print(int cnt){
+        System.out.println("현재 층수: "+cnt);
+        System.out.print("리스트: ");
+        for(Integer i:list){
+            System.out.print(i+" ");
+        }
+        System.out.println();
+        System.out.print("스택: ");
+        for(Integer i:stack){
+            System.out.print(i+" ");
+        }
+        System.out.println();
+        System.out.println();
+    }
 }
