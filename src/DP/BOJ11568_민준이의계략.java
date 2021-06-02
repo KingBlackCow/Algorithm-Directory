@@ -18,7 +18,7 @@ public class BOJ11568_민준이의계략 {
             ary[i] = Integer.parseInt(st.nextToken());
         }
         int[] dp = new int[N];
-        int max = 0;
+        int max = 1;
         dp[0] = 1;
         for (int i = 1; i < N; i++) {
             dp[i] = 1;
