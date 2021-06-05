@@ -1,4 +1,4 @@
-package 문자열;
+package DP;
 
 import java.io.*;
 
