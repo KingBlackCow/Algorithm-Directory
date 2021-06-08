@@ -38,6 +38,7 @@ public class BOJ12851_숨바꼭질2 {
                 } else if (tmp.time == min) {
                     cnt++;
                 }
+                continue;
             }
 
             if (tmp.x - 1 >= 0) {
