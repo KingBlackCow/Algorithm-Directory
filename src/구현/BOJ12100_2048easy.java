@@ -115,7 +115,7 @@ public class BOJ12100_2048easy {
 
     private static void fusion(int[][] map2, int dir, int turn) {
         Stack<Integer> stack = new Stack<>();
-        Queue<Integer> q;
+        Queue<Integer> q= new LinkedList<>();
         int[][] map3 = new int[n][n];
         if (dir == 0) {
             for (int i = 0; i < n; i++) {
@@ -133,7 +133,7 @@ public class BOJ12100_2048easy {
                     }
                 }
                 int cnt = 0;
-                q=new LinkedList<>(stack);
+                q.addAll(stack);
                 while (!q.isEmpty()) {
                     map3[cnt++][i] = q.poll();
                 }
@@ -155,7 +155,7 @@ public class BOJ12100_2048easy {
                     }
                 }
                 int cnt = n - 1;
-                q=new LinkedList<>(stack);
+                q.addAll(stack);
                 while (!q.isEmpty()) {
                     map3[i][cnt--] = q.poll();
                 }
@@ -177,7 +177,7 @@ public class BOJ12100_2048easy {
                     }
                 }
                 int cnt = n - 1;
-                q=new LinkedList<>(stack);
+                q.addAll(stack);
                 while (!q.isEmpty()) {
                     map3[cnt--][i] = q.poll();
                 }
@@ -199,7 +199,7 @@ public class BOJ12100_2048easy {
                     }
                 }
                 int cnt = 0;
-                q=new LinkedList<>(stack);
+                q.addAll(stack);
                 while (!q.isEmpty()) {
                     map3[i][cnt++] = q.poll();
                 }
