@@ -1,242 +1,108 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.*;
 
+
 public class Main {
-
-    public static int n;
-    public static int[][] map;
-    static int max = 0;
-    static boolean[][] visit;
-
-    public static void main(String[] args) throws Exception {
+    static int n;
+    static int f;
+    static double[] dist;
+    static Edge[] nodes;
+    static Set<Integer> set;
+    static List<Edge> list[];
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st = new StringTokenizer(br.readLine());
+        StringBuilder sb = new StringBuilder();
         n = Integer.parseInt(st.nextToken());
-        map = new int[n][n];
-        visit = new boolean[n][n];
-        for (int i = 0; i < n; i++) {
+        f = Integer.parseInt(st.nextToken());
+        dist = new double[n + 1];
+        Arrays.fill(dist, 987654321);
+        nodes = new Edge[n + 1];
+        set = new HashSet<>();
+        list= new ArrayList[n+1];
+
+        for (int i = 0; i <=n; i++) {
+            list[i]= new ArrayList<>();
+        }
+        nodes[0]= new Edge(0,0,0,0);
+        for (int i = 1; i <= n; i++) {
             st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < n; j++) {
-                map[i][j] = Integer.parseInt(st.nextToken());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            nodes[i] = new Edge(i, a, b,987654321);
+            if (b == f) {
+                set.add(i);
             }
         }
-        List<Integer> list = new ArrayList<>();
-        move(map, 0, list);
+        for (int i = 0; i < n; i++) {
+            for (int j = i+1; j <= n; j++) {
+                if ((Math.abs(nodes[j].x - nodes[i].x) > 2) || (Math.abs(nodes[j].y - nodes[i].y) > 2)) {
+                    continue;
+                }
+                double distTmp = getDistance(nodes[j].x, nodes[j].y, nodes[i].x, nodes[i].y);
+                list[i].add(new Edge(j,nodes[j].x, nodes[j].y,distTmp));
+                list[j].add(new Edge(i,nodes[i].x, nodes[i].y,distTmp));
+            }
+        }
+        dijkstra(0);
+        double min = 987654321;
+        for (int i = 1; i <= n; i++) {
+            if (set.contains(i)) {
+                min = Math.min(min, dist[i]);
+            }
+        }
+        if (min == 987654321) System.out.println(-1);
+        else System.out.println(Math.round(min));
 
-        System.out.println(max);
+        bw.flush();
+        bw.close();
+        br.close();
     }
 
-    private static void move(int[][] map, int turn, List<Integer> list) {
-        if (turn >= 5) {
-            int tmp = calc(map);
-            if (max < tmp) {
-                max = tmp;
-            }
-            //max = Math.max(max, calc(map));
-            return;
-        }
-        turn++;
-        List<Integer> list1 = new ArrayList<>(list);
-        Queue<Integer> q = new LinkedList<>();
-        //0 북쪽
-        int[][] map2 = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (map[j][i] != 0) {
-                    q.add(map[j][i]);
+    private static void dijkstra(int start) {
+        dist[start] = 0;
+        PriorityQueue<Edge> q = new PriorityQueue<>();
+        q.add(new Edge(0, 0, 0, 0));
+        boolean[] visit = new boolean[n+1];
+        while (!q.isEmpty()) {
+            Edge tmp = q.poll();
+            if(visit[tmp.num])continue;
+            visit[tmp.num]=true;
+
+            for (Edge edge: list[tmp.num]) {
+
+                if (dist[edge.num] > dist[tmp.num] + edge.weight) {
+                    dist[edge.num] = dist[tmp.num] + edge.weight;
+                    q.add(new Edge(edge.num, nodes[edge.num].x, nodes[edge.num].y, dist[edge.num]));
                 }
             }
-            int cnt = 0;
-            while (!q.isEmpty()) {
-                map2[cnt++][i] = q.poll();
-            }
         }
-        list1.add(0);
-        fusion(map2, 0, turn, list1);
-        list1.remove(list1.size() - 1);
-        /////////////////////////
-        //1 동쪽
-        map2 = new int[n][n];
-        q.clear();
-        for (int i = 0; i < n; i++) {
-            for (int j = n - 1; j >= 0; j--) {
-                if (map[i][j] != 0) {
-                    q.add(map[i][j]);
-                }
-            }
-            int cnt = n - 1;
-            while (!q.isEmpty()) {
-                map2[i][cnt--] = q.poll();
-            }
-        }
-        list1.add(1);
-        fusion(map2, 1, turn, list1);
-        list1.remove(list1.size() - 1);
-        ///////////////////////////
-        //2 남쪽
-        map2 = new int[n][n];
-        q.clear();
-        for (int i = 0; i < n; i++) {
-            for (int j = n - 1; j >= 0; j--) {
-                if (map[j][i] != 0) {
-                    q.add(map[j][i]);
-                }
-            }
-            int cnt = n - 1;
-            while (!q.isEmpty()) {
-                map2[cnt--][i] = q.poll();
-            }
-        }
-        list1.add(2);
-        fusion(map2, 2, turn, list1);
-        list1.remove(list1.size() - 1);
-        //3 서쪽
-        map2 = new int[n][n];
-        q.clear();
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (map[i][j] != 0) {
-                    q.add(map[i][j]);
-                }
-            }
-            int cnt = 0;
-            while (!q.isEmpty()) {
-                map2[i][cnt++] = q.poll();
-            }
-        }
-        list1.add(3);
-        fusion(map2, 3, turn, list1);
-        list1.remove(list1.size() - 1);
     }
 
-    private static int calc(int[][] map) {
-        int max = 0;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                max = Math.max(max, map[i][j]);
-            }
-        }
-        return max;
+    static double getDistance(int x1, int y1, int x2, int y2) {
+        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
 
-    private static void fusion(int[][] map2, int dir, int turn, List<Integer> list) {
-        Stack<Integer> stack = new Stack<>();
-        Stack<Integer> stack2 = new Stack<>();
-        Deque<Integer> q = new ArrayDeque<>();
-        int[][] map3 = new int[n][n];
-        if (dir == 0) {
-            for (int i = 0; i < n; i++) {
-                if (map2[0][i] == 0) continue;
-                stack.clear();
-                boolean lock = false;
-                //stack.add(map2[0][i]);
-                for (int j = 0; j < n; j++) {
-                    if (map2[j][i] == 0) break;
-                    if (!stack.isEmpty() && (stack.peek() == map2[j][i]) && !lock) {
-                        stack.add(2 * stack.pop());
-                        lock = true;
-                    } else {
-                        stack.add(map2[j][i]);
-                        lock = false;
-                    }
-                }
-                int cnt = 0;
-                while (!stack.isEmpty()) {
-                    stack2.add(stack.pop());
-                }
-                while (!stack2.isEmpty()) {
-                    q.add(stack2.pop());
-                }
-                while (!q.isEmpty()) {
-                    map3[cnt++][i] = q.poll();
-                }
-            }
-            move(map3, turn, list);
-        } else if (dir == 1) {
-            for (int i = 0; i < n; i++) {
-                if (map2[i][n - 1] == 0) continue;
-                stack.clear();
-                boolean lock = false;
-                //stack.add(map2[i][n - 1]);
-                for (int j = n - 1; j >= 0; j--) {
-                    if (map2[i][j] == 0) break;
-                    if (!stack.isEmpty() && (stack.peek() == map2[i][j]) && !lock) {
-                        stack.add(2 * stack.pop());
-                        lock = true;
-                    } else {
-                        stack.add(map2[i][j]);
-                        lock = false;
-                    }
-                }
-                int cnt = n - 1;
-                while (!stack.isEmpty()) {
-                    stack2.add(stack.pop());
-                }
-                while (!stack2.isEmpty()) {
-                    q.add(stack2.pop());
-                }
-                while (!q.isEmpty()) {
-                    map3[i][cnt--] = q.poll();
-                }
-            }
-            move(map3, turn, list);
-        } else if (dir == 2) {
-            for (int i = 0; i < n; i++) {
-                if (map2[n - 1][i] == 0) continue;
-                boolean lock = false;
-                stack.clear();
-                //stack.add(map2[n - 1][i]);
-                for (int j = n - 1; j >= 0; j--) {
-                    if (map2[j][i] == 0) break;
-                    if (!stack.isEmpty() && (stack.peek() == map2[j][i]) && !lock) {
-                        stack.add(stack.pop() * 2);
-                        lock = true;
-                    } else {
-                        stack.add(map2[j][i]);
-                        lock = false;
-                    }
-                }
-                int cnt = n - 1;
-                while (!stack.isEmpty()) {
-                    stack2.add(stack.pop());
-                }
-                while (!stack2.isEmpty()) {
-                    q.add(stack2.pop());
-                }
-                while (!q.isEmpty()) {
-                    map3[cnt--][i] = q.poll();
-                }
-            }
-            move(map3, turn, list);
-        } else if (dir == 3) {
-            for (int i = 0; i < n; i++) {
-                boolean lock = false;
-                if (map2[i][0] == 0) continue;
-                stack.clear();
-                //stack.add(map2[i][0]);
-                for (int j = 0; j < n; j++) {
-                    if (map2[i][j] == 0) break;
-                    if (!stack.isEmpty() && (stack.peek() == map2[i][j]) && !lock) {
-                        stack.add(2 * stack.pop());
-                        lock = true;
-                    } else {
-                        stack.add(map2[i][j]);
-                        lock = false;
-                    }
-                }
-                int cnt = 0;
-                while (!stack.isEmpty()) {
-                    stack2.add(stack.pop());
-                }
-                while (!stack2.isEmpty()) {
-                    q.add(stack2.pop());
-                }
-                while (!q.isEmpty()) {
-                    map3[i][cnt++] = q.poll();
-                }
-            }
-            move(map3, turn, list);
+    static class Edge implements Comparable<Edge>{
+        int num;
+        int x;
+        int y;
+        double weight;
+        public Edge(int num, int x, int y, double weight) {
+            this.num = num;
+            this.x = x;
+            this.y = y;
+            this.weight=weight;
+        }
+
+        @Override
+        public int compareTo(Edge o) {
+            return Double.compare(this.weight,o.weight);
         }
     }
 
