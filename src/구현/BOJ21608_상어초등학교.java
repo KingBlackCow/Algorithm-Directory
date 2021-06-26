@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class BOJ21608_상어초등학교 {
-    static int n, m;
+    static int n;
     static List<Node> studentList = new LinkedList<>();
     static PriorityQueue<Empty> emptyQ = new PriorityQueue<>();
     static int[][] map;
@@ -33,12 +33,13 @@ public class BOJ21608_상어초등학교 {
             int cnt = 0;
             int a = 0;
             int b = 0;
+            out:
             for (int j = 1; j <= n; j++) {
                 for (int k = 1; k <= n; k++) {
-                    if(map[j][k]==studentList.get(i).num){
-                        a=j;
-                        b=k;
-                        break;
+                    if (map[j][k] == studentList.get(i).num) {
+                        a = j;
+                        b = k;
+                        break out;
                     }
                 }
             }
@@ -46,12 +47,12 @@ public class BOJ21608_상어초등학교 {
                 int r = a + dr[j];
                 int c = b + dc[j];
                 if (r < 1 || c < 1 || r > n || c > n) continue;
-                if(studentList.get(i).set.contains(map[r][c])){
+                if (studentList.get(i).set.contains(map[r][c])) {
                     cnt++;
                 }
             }
-            if(cnt==0)continue;
-            sum+=Math.pow(10,cnt-1);
+            if (cnt == 0) continue;
+            sum += Math.pow(10, cnt - 1);
         }
         System.out.println(sum);
 
@@ -60,7 +61,6 @@ public class BOJ21608_상어초등학교 {
     private static void emptyCheck() {
         for (int q = 0; q < studentList.size(); q++) {
             Node student = studentList.get(q);
-            int maxAdj = 0;
             for (int i = 1; i <= n; i++) {
                 for (int j = 1; j <= n; j++) {
                     if (map[i][j] == 0) {
@@ -77,10 +77,7 @@ public class BOJ21608_상어초등학교 {
                                 emptyPlace++;
                             }
                         }
-                        if (adj >= maxAdj) {
-                            maxAdj = adj;
-                            emptyQ.add(new Empty(i, j, maxAdj, emptyPlace));
-                        }
+                        emptyQ.add(new Empty(i, j, adj, emptyPlace));
                     }
                 }
             }
