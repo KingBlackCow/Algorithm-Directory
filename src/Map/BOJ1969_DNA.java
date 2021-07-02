@@ -18,7 +18,7 @@ public class BOJ1969_DNA {
             str[i] = br.readLine();
         }
         Map<Character, Integer> map = new HashMap<>();
-        ;
+
         String res = "";
         int sum = 0;
         for (int i = 0; i < m; i++) {
