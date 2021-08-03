@@ -4,9 +4,7 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class BOJ19238_스타트택시 {
     static int[][] map;
@@ -114,10 +112,10 @@ public class BOJ19238_스타트택시 {
                 } else if (map[i][j] == 0) {
                     newMap[i][j] = Integer.MAX_VALUE;
                 }
-                //newMap[i][j] = map[i][j];
             }
         }
         int turn = 1;
+        newMap[startX][startY] = 0;
         while (!q.isEmpty()) {
             int qSize = q.size();
             for (int i = 0; i < qSize; i++) {
@@ -159,7 +157,7 @@ public class BOJ19238_스타트택시 {
                 minEy = person.eY;
                 continue;
             } else if (min == newMap[person.sX][person.sY]) {
-                if (minNum > person.num) {
+                if (minSx > person.sX) {
                     personQ.add(new Person(minNum, minSx, minSy, minEx, minEy));
                     min = newMap[person.sX][person.sY];
                     minNum = person.num;
@@ -168,8 +166,18 @@ public class BOJ19238_스타트택시 {
                     minEx = person.eX;
                     minEy = person.eY;
                     continue;
+                } else if (minSx == person.sX) {
+                    if (minSy > person.sY) {
+                        personQ.add(new Person(minNum, minSx, minSy, minEx, minEy));
+                        min = newMap[person.sX][person.sY];
+                        minNum = person.num;
+                        minSx = person.sX;
+                        minSy = person.sY;
+                        minEx = person.eX;
+                        minEy = person.eY;
+                        continue;
+                    }
                 }
-
             }
             personQ.add(person);
         }
